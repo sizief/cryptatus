@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# Usage: ./lazy.rb -sv -p 8888 -e production
+#  ./lazy.rb  -p 8888 -e production
 
 require 'sinatra'
 require "sinatra/json"
@@ -10,11 +10,10 @@ get '/fast' do
 end	
 
 get '/lazy' do
-  sleep 10 #do_hard_work
+  sleep 2 #do_hard_work
   json :body => "I am lazy", :pid => Process.pid , :tid => Thread.current.object_id
 end
 
-def do_hard_work
-  arr = []
-  (0..200_000_000).each {|i| arr.push i}
+get '/price' do
+	Time.now.to_i.to_s
 end
