@@ -3,3 +3,6 @@
 - Worker to update Redis
 - Get price from redis
 - Dockerize
+- CI/CD
+- K8s
+
