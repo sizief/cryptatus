@@ -10,10 +10,10 @@ get '/fast' do
 end	
 
 get '/lazy' do
-  sleep 2 #do_hard_work
-  json :body => "I am lazy", :pid => Process.pid , :tid => Thread.current.object_id
+  sleep 5 #do_hard_work
+  "I am lazy"
 end
 
-get '/price' do
-	Time.now.to_i.to_s
+get '/tick' do
+  Time.now.to_i.to_s
 end
