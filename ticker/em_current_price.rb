@@ -30,7 +30,7 @@ class CurrentPrice
 
   def self.update
     @number ||= 1000
-    http = EM::HttpRequest.new('http://localhost:8888/tick').get
+    http = EM::HttpRequest.new('http://pricer:8080/tick').get
     http.callback { @number = http.response;}
     http.errback {p http.error }
   end

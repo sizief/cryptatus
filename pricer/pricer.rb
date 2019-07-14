@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 #  ./lazy.rb  -p 8888 -e production
 
 require 'sinatra'
