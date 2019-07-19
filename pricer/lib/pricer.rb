@@ -1,4 +1,5 @@
-#  ./lazy.rb  -p 8888 -e production
+#!/usr/bin/env ruby
+#run me:  ./lib/pricer.rb  -p 8888 -e production
 
 require 'sinatra'
 require "sinatra/json"

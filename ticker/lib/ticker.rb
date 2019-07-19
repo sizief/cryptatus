@@ -29,8 +29,11 @@ class CurrentPrice
   end
 
   def self.update
+    tick_server = ARGV[0]
+    abort if tick_server.nil?
     @number ||= 1000
-    http = EM::HttpRequest.new('http://pricer:8080/tick').get
+
+    http = EM::HttpRequest.new(tick_server).get
     http.callback { @number = http.response;}
     http.errback {p http.error }
   end
