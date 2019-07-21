@@ -1,7 +1,8 @@
-require 'rubygems'
 require 'eventmachine'
 require 'evma_httpserver'
 require 'em-http-request'
+
+PRICER_SERVER = ARGV[0] #'http://localhost:8080'
 
 class Handler  < EventMachine::Connection
   include EventMachine::HttpServer
@@ -28,19 +29,17 @@ class CurrentPrice
     @number
   end
 
-  def self.update
-    tick_server = ARGV[0]
-    abort if tick_server.nil?
+  def self.update 
+    abort("Aborting. Pricing server is not provided.") if PRICER_SERVER.nil?
     @number ||= 1000
 
-    http = EM::HttpRequest.new(tick_server).get
+    http = EM::HttpRequest.new(PRICER_SERVER).get
     http.callback { @number = http.response;}
     http.errback {p http.error }
   end
 end
 
 EventMachine::run {
-  EventMachine.add_periodic_timer(1) { CurrentPrice.update}
+  EventMachine.add_periodic_timer(1) { CurrentPrice.update} 
   EventMachine::start_server("0.0.0.0", 8080, Handler)
 }
-
