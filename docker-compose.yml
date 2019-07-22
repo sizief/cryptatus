@@ -1,29 +1,26 @@
-version: '2'
+version: '3'
 services:
   pricer:
     build:
       context: ./pricer
       dockerfile: Dockerfile
-      args:
-        - PRICER_PORT=2222
     labels:
-      - traefik.enable = false
-# reverse-proxy:
-#    image: traefik:alpine # The official Traefik docker image
-#    command: --api --docker # Enables the web UI and tells Traefik to listen to docker
-#    ports:
-#      - "80:80"     # The HTTP port
-#      - "8080:8080" # The Web UI (enabled by --api)
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-#      - ./traefik:/etc/traefik
-# ticker:
-#   build:
-#     context: ./ticker
-#     dockerfile: Dockerfile
-#     args:
-#       - PRICER_PORT=
-#   depends_on:
-#     - pricer
-#   labels:
-#     - traefik.enable = true
+      - "traefik.enable = false"
+  reverse-proxy:
+    image: traefik:alpine # The official Traefik docker image
+    command: --api --docker # Enables the web UI and tells Traefik to listen to docker
+    ports:
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./traefik:/etc/traefik
+  ticker:
+    build:
+      context: ./ticker
+      dockerfile: Dockerfile
+    depends_on:
+      - pricer
+    labels:
+      - "traefik.enable = true"
+      - "traefik.frontend.rule=Path: /tick;"

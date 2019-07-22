@@ -6,4 +6,4 @@ COPY Gemfile.lock Gemfile.lock
 RUN gem install bundler && bundle install
 EXPOSE 8080
 COPY . .
-CMD ["bundle", "exec", "ruby", "./bin/server.rb", "$PRICER_NAME:$PRICER:PORT"]
+CMD ["./bin/server.sh"]

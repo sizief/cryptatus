@@ -2,7 +2,7 @@ require 'eventmachine'
 require 'evma_httpserver'
 require 'em-http-request'
 
-PRICER_SERVER = ARGV[0] #'http://localhost:8080'
+PRICER_SERVER = 'http://pricer:8080'
 
 class Handler  < EventMachine::Connection
   include EventMachine::HttpServer
@@ -30,10 +30,10 @@ class CurrentPrice
   end
 
   def self.update 
-    abort("Aborting. Pricing server is not provided.") if PRICER_SERVER.nil?
+    abort("Abort. Pricing server is not provided.") if PRICER_SERVER.nil?
     @number ||= 1000
 
-    http = EM::HttpRequest.new(PRICER_SERVER).get
+    http = EM::HttpRequest.new("#{PRICER_SERVER}/price").get
     http.callback { @number = http.response;}
     http.errback {p http.error }
   end
